@@ -1,0 +1,487 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "L'appareil est déjà configuré"
+    },
+    "error": {
+      "cannot_connect": "Echec de la connexion. Vérifiez les informations d’identification.",
+      "cannot_connect_local_ip": "Echec de la connexion. Vérifiez l’adresse IP fournie.",
+      "cannot_connect_local_all": "Echec de la connexion. Vérifiez les paramètres fournis.",
+      "no_printers": "Aucune imprimante non configurée n’a été trouvée dans le compte.",
+      "invalid_auth": "Authentification invalide.",
+      "unknown": "Erreur inattendue."
+    },
+    "step": {
+      "user": {
+        "description": "La configuration via Bambu Cloud est la plus simple. Mais ne prend pas en charge l’authentification à 2 facteurs ou les comptes de médias sociaux sans mot de passe. Et cela ne fonctionnera pas pour les imprimantes actives en mode LAN uniquement.",
+        "data": {
+          "printer_mode": "Mode de configuration de l’imprimante :"
+        }
+      },
+      "Bambu": {
+        "title": "Connexion au cloud Bambu",
+        "description": "Veuillez fournir vos informations d’identification Bambu Lab :",
+        "data": {
+          "region": "Région du compte :",
+          "email": "Adresse e-mail ou numéro de téléphone",
+          "password": "Mot de passe"
+        }
+      },
+      "Bambu_Choose_Device": {
+        "title": "Sélection de l’imprimante",
+        "description": "Choisissez l’imprimante que vous souhaitez ajouter.",
+        "data": {
+          "printer": "Choisissez l’imprimante à ajouter :"
+        }
+      },
+      "Bambu_Lan": {
+        "title": "Configurer la connexion locale",
+        "description": "Vous pouvez éventuellement fournir l’adresse IP et le code d’accès de l’imprimante locale. Ceci est nécessaire pour l’accès à la caméra sur le P1/A1. Ou de pouvoir se connecter directement à l’imprimante plutôt que via Bambu Cloud.",
+        "data": {
+          "local_mqtt": "Connectez-vous directement à l’imprimante au lieu de passer par Bambu Cloud :",
+          "host": "Adresse IP de l’imprimante locale :",
+          "access_code": "Code d'accès"
+        }
+      },
+      "Lan": {
+        "title": "Connexion en mode LAN",
+        "description": "Veuillez fournir votre type d’imprimante locale, votre adresse IP, votre numéro de série et votre code d’accès. Le code d’accès se trouve sur l’écran de l’imprimante dans les paramètres réseau. Le numéro de série se trouve dans les paramètres de l’appareil.",
+        "data": {
+          "serial": "Numéro de série",
+          "host": "Adresse IP de l’imprimante locale :",
+          "access_code": "Code d'accès"
+        }
+      }
+    }
+  },
+  "options": {
+    "error": {
+      "cannot_connect": "Echec de la connexion. Vérifiez les informations d’identification.",
+      "cannot_connect_local_ip": "Echec de la connexion. Vérifiez l’adresse IP fournie.",
+      "cannot_connect_local_all": "Echec de la connexion. Vérifiez les paramètres fournis.",
+      "invalid_auth": "Authentification invalide.",
+      "unknown": "Erreur inattendue."
+    },
+    "step": {
+      "init": {
+        "title": "Ajuster les paramètres de connexion",
+        "description": "La configuration via Bambu Cloud est la plus simple. Mais ne prend pas en charge l’authentification à 2 facteurs ou les comptes de médias sociaux sans mot de passe. Et cela ne fonctionnera pas pour les imprimantes actives en mode LAN uniquement.",
+        "data": {
+          "printer_mode": "Mode de configuration de l’imprimante :"
+        }
+      },
+      "Bambu": {
+        "title": "Connexion au cloud Bambu",
+        "description": "Veuillez fournir vos informations d’identification Bambu Lab :",
+        "data": {
+          "region": "Région du compte :",
+          "email": "Adresse e-mail ou numéro de téléphone",
+          "password": "Mot de passe"
+        }
+      },
+      "Bambu_Lan": {
+        "title": "Ajuster la configuration de l’imprimante",
+        "description": "Vous pouvez éventuellement fournir l’adresse IP et le code d’accès de l’imprimante locale. Ceci est nécessaire pour l’accès à la caméra sur le P1/A1. Ou de pouvoir se connecter directement à l’imprimante plutôt que via Bambu Cloud.",
+        "data": {
+          "printer": "Choisissez l’imprimante à ajouter :",
+          "host": "Adresse IP de l’imprimante locale :",
+          "local_mqtt": "Connectez-vous directement à l’imprimante au lieu de passer par Bambu Cloud :"
+        }
+      },
+      "Lan": {
+        "title": "Connexion en mode LAN",
+        "description": "Veuillez fournir l’adresse IP et le code d’accès de votre imprimante locale. Le code d’accès se trouve sur l’écran de l’imprimante dans les paramètres réseau.",
+        "data": {
+          "host": "Adresse IP de l’imprimante locale :",
+          "access_code": "Code d'accès"
+        }
+      }
+    }
+  },
+  "entity": {
+    "binary_sensor": {
+      "timelapse": {
+        "name": "Timelapse"
+      },
+      "hms_errors": {
+        "name": "Erreurs HMS"
+      },
+      "online": {
+        "name": "État"
+      },
+      "firmware_update": {
+        "name": "Mise à jour du micrologiciel"
+      }
+    },
+    "button": {
+      "pause": {
+        "name": "Mettre en pause l'impression"
+      },
+      "resume": {
+        "name": "Reprendre l'impression"
+      },
+      "stop": {
+        "name": "Arrêter l'impression"
+      },
+      "refresh": {
+        "name": "Forcer l'actualisation des données"
+      }
+    },
+    "fan": {
+      "cooling_fan": {
+        "name": "Ventilateur de refroidissement"
+      },
+      "aux_fan": {
+        "name": "Ventilateur auxiliaire"
+      },
+      "chamber_fan": {
+        "name": "Ventilateur de la chambre"
+      }
+    },
+    "image": {
+      "p1p_camera": {
+        "name": "Caméra"
+      },
+      "cover_image": {
+        "name": "Image de couverture"
+      }
+    },
+    "light": {
+      "chamber_light": {
+        "name": "Lumière de la chambre"
+      },
+      "camera_light": {
+        "name": "Lumière de la caméra"
+      }
+    },
+    "select": {
+      "printing_speed": {
+        "name": "Vitesse d'impression",
+        "state": {
+          "silent": "Silencieux",
+          "standard": "Standard",
+          "sport": "Sport",
+          "ludicrous": "Insensé"
+        }
+      }
+    },
+    "sensor": {
+      "wifi_signal": {
+        "name": "Signal Wi-Fi"
+      },
+      "bed_temp": {
+        "name": "Température du lit"
+      },
+      "target_bed_temp": {
+        "name": "Température cible du lit"
+      },
+      "chamber_temp": {
+        "name": "Température de la chambre"
+      },
+      "target_nozzle_temp": {
+        "name": "Température cible de la buse"
+      },
+      "nozzle_temp": {
+        "name": "Température de la buse"
+      },
+      "aux_fan_speed": {
+        "name": "Vitesse du ventilateur auxiliaire"
+      },
+      "cooling_fan_speed": {
+        "name": "Vitesse du ventilateur de refroidissement"
+      },
+      "chamber_fan_speed": {
+        "name": "Vitesse du ventilateur de la chambre"
+      },
+      "heatbreak_fan_speed": {
+        "name": "Vitesse du ventilateur de l'isolateur thermique"
+      },
+      "speed_profile": {
+        "name": "Profil de vitesse",
+        "state": {
+          "silent": "Silencieux",
+          "standard": "Standard",
+          "sport": "Sport",
+          "ludicrous": "Insensé"
+        },
+        "state_attributes": {
+          "modifier": {
+            "name": "Modificateur"
+          }
+        }
+      },
+      "printer_name": {
+        "name": "Nom de l’imprimante"
+      },
+      "stage": {
+        "name": "Étape actuelle",
+        "state": {
+          "offline": "Hors ligne",
+          "printing": "Impression",
+          "auto_bed_leveling": "Nivellement automatique du lit",
+          "heatbed_preheating": "Préchauffage du lit",
+          "sweeping_xy_mech_mode": "Mode balayage XY mécanique",
+          "changing_filament": "Changement de filament",
+          "m400_pause": "Pause M400",
+          "paused_filament_runout": "Pause à cause d'une fin de filament",
+          "heating_hotend": "Préchauffage de l'extrudeur",
+          "calibrating_extrusion": "Calibration de l'extrusion",
+          "scanning_bed_surface": "Numérisation de la surface du lit",
+          "inspecting_first_layer": "Inspection de la première couche",
+          "identifying_build_plate_type": "Identification du type de plateaun",
+          "calibrating_micro_lidar": "Calibration du lidar",
+          "homing_toolhead": "Recentrage de la tête d'impression",
+          "cleaning_nozzle_tip": "Nettoyage de la buse",
+          "checking_extruder_temperature": "Vérification de la température de l'extrudeur",
+          "paused_user": "Pause par l'utilisateur",
+          "paused_front_cover_falling": "Pause en raison de la chute du couvercle avant",
+          "calibrating_extrusion_flow": "Calibration du débit de l'extrusion",
+          "paused_nozzle_temperature_malfunction": "Pause en raison d'un dysfonctionnement de la température de la buse",
+          "paused_heat_bed_temperature_malfunction": "Pause en raison d'un dysfonctionnement de la température du lit",
+          "idle": "Inactif"
+        }
+      },
+      "print_progress": {
+        "name": "Progression de l'impression"
+      },
+      "print_status": {
+        "name": "État de l'impression",
+        "state": {
+          "failed": "Échoué",
+          "finish": "Terminé",
+          "idle": "Inactif",
+          "offline": "Hors ligne",
+          "prepare": "Préparation",
+          "running": "En cours",
+          "pause": "En pause",
+          "slicing": "Tranchage",
+          "init": "Initialisation"
+        }
+      },
+      "gcode_file": {
+        "name": "Ficher G-code"
+      },
+      "print_bed_type": {
+        "name": "Type de lit d’impression"
+      },
+      "print_length": {
+        "name": "Longueur d’impression"
+      },
+      "print_weight": {
+        "name": "Grammage de l’impression"
+      },
+      "subtask_name": {
+        "name": "Nom de la tâche"
+      },
+      "start_time": {
+        "name": "Heure de début"
+      },
+      "remaining_time": {
+        "name": "Temps restant"
+      },
+      "end_time": {
+        "name": "Heure de fin"
+      },
+      "total_usage_hours": {
+        "name": "Utilisation totale"
+      },
+      "current_layer": {
+        "name": "Couche actuelle"
+      },
+      "total_layers": {
+        "name": "Nombre total de couches"
+      },
+      "active_tray": {
+        "name": "Emplacement actif"
+      },
+      "active_tray_index": {
+        "name": "Emplacement actif (index)"
+      },
+      "humidity_index": {
+        "name": "Indice d'humidité"
+      },
+      "ams_temp": {
+        "name": "Température de la AMS"
+      },
+      "external_spool": {
+        "name": "Bobine externe",
+        "state_attributes": {
+          "active": {
+            "name": "Actif"
+          },
+          "color": {
+            "name": "Couleur"
+          },
+          "empty": {
+            "name": "Vide"
+          },
+          "k_value": {
+            "name": "Valeur K"
+          },
+          "name": {
+            "name": "Nom"
+          },
+          "nozzle_temp_min": {
+            "name": "Température minimale de la buse"
+          },
+          "nozzle_temp_max": {
+            "name": "Température maximale de la buse"
+          },
+          "type": {
+            "name": "Type"
+          }
+        }
+      },
+      "tray_1": {
+        "name": "Emplacement 1",
+        "state_attributes": {
+          "active": {
+            "name": "Actif"
+          },
+          "color": {
+            "name": "Couleur"
+          },
+          "empty": {
+            "name": "Vide"
+          },
+          "k_value": {
+            "name": "Valeur K"
+          },
+          "name": {
+            "name": "Nom"
+          },
+          "nozzle_temp_min": {
+            "name": "Température minimale de la buse"
+          },
+          "nozzle_temp_max": {
+            "name": "Température maximale de la buse"
+          },
+          "type": {
+            "name": "Type"
+          },
+          "remain": {
+            "name": "Filament restant"
+          },
+          "tag_uid": {
+            "name": "Numéro de série du filament"
+          }
+        }
+      },
+      "tray_2": {
+        "name": "Emplacement 2",
+        "state_attributes": {
+          "active": {
+            "name": "Actif"
+          },
+          "color": {
+            "name": "Couleur"
+          },
+          "empty": {
+            "name": "Vide"
+          },
+          "k_value": {
+            "name": "Valeur K"
+          },
+          "name": {
+            "name": "Nom"
+          },
+          "nozzle_temp_min": {
+            "name": "Température minimale de la buse"
+          },
+          "nozzle_temp_max": {
+            "name": "Température maximale de la buse"
+          },
+          "type": {
+            "name": "Type"
+          },
+          "remain": {
+            "name": "Filament restant"
+          },
+          "tag_uid": {
+            "name": "Numéro de série du filament"
+          }
+        }
+      },
+      "tray_3": {
+        "name": "Emplacement 3",
+        "state_attributes": {
+          "active": {
+            "name": "Actif"
+          },
+          "color": {
+            "name": "Couleur"
+          },
+          "empty": {
+            "name": "Vide"
+          },
+          "k_value": {
+            "name": "Valeur K"
+          },
+          "name": {
+            "name": "Nom"
+          },
+          "nozzle_temp_min": {
+            "name": "Température minimale de la buse"
+          },
+          "nozzle_temp_max": {
+            "name": "Température maximale de la buse"
+          },
+          "type": {
+            "name": "Type"
+          },
+          "remain": {
+            "name": "Filament restant"
+          },
+          "tag_uid": {
+            "name": "Numéro de série du filament"
+          }
+        }
+      },
+      "tray_4": {
+        "name": "Emplacement 4",
+        "state_attributes": {
+          "active": {
+            "name": "Actif"
+          },
+          "color": {
+            "name": "Couleur"
+          },
+          "empty": {
+            "name": "Vide"
+          },
+          "k_value": {
+            "name": "Valeur K"
+          },
+          "name": {
+            "name": "Nom"
+          },
+          "nozzle_temp_min": {
+            "name": "Température minimale de la buse"
+          },
+          "nozzle_temp_max": {
+            "name": "Température maximale de la buse"
+          },
+          "type": {
+            "name": "Type"
+          },
+          "remain": {
+            "name": "Filament restant"
+          },
+          "tag_uid": {
+            "name": "Numéro de série du filament"
+          }
+        }
+      }
+    },
+    "camera": {
+      "camera": {
+        "name": "Caméra"
+      }
+    },
+    "switch": {
+      "manual": {
+        "name": "Mode d’actualisation manuelle"
+      }
+    }
+  }
+}

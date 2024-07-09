@@ -1,0 +1,6 @@
+<RCC>
+  <qresource prefix="icon">
+    <file>bambu_3d.png</file>
+    <file>logo.png</file>
+  </qresource>
+</RCC>

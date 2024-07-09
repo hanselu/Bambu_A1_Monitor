@@ -1,0 +1,549 @@
+{
+  "device_automation": {
+    "trigger_type": {
+      "event_print_canceled": "Print canceled",
+      "event_print_failed": "Print failed",
+      "event_print_finished": "Print finished",
+      "event_print_started": "Print started",
+      "event_printer_error": "Printer error detected"
+    }
+  },
+  "config": {
+    "abort": {
+      "already_configured": "Device is already configured"
+    },
+    "error": {
+      "cannot_connect": "Failed to connect. Check credentials.",
+      "cannot_connect_local_ip": "Failed to connect. Check provided IP address.",
+      "cannot_connect_local_all": "Failed to connect. Check provided settings.",
+      "no_printers": "No unconfigured printers found in the account.",
+      "invalid_auth": "Invalid authentication.",
+      "unknown": "Unexpected error."
+    },
+    "step": {
+      "user": {
+        "description": "Configuration via Bambu Cloud is simplest. But does not support 2FA or social media accounts without a password. And it will not work for printers actively set to Lan Only Mode.",
+        "data": {
+          "printer_mode": "Printer configuration mode:"
+        }
+      },
+      "Bambu": {
+        "title": "Bambu Cloud Connection",
+        "description": "Please provide your Bambu Lab credentials:",
+        "data": {
+          "region": "Account region:",
+          "email": "Email Address or Phone Number",
+          "password": "Password"
+        }
+      },
+      "Bambu_Choose_Device": {
+        "title": "Printer Selection",
+        "description": "Choose which printer you want to add.",
+        "data": {
+          "printer": "Choose Printer To Add:"
+        }
+      },
+      "Bambu_Lan": {
+        "title": "Setup Local Connection",
+        "description": "You can optionally provide the local printer IP address and access code. This is required for camera access on the P1/A1. Or to be able to connect directly to the printer instead of via Bambu Cloud.",
+        "data": {
+          "local_mqtt": "Connect locally to the printer:",
+          "host": "Local Printer IP Address:",
+          "access_code": "Access Code:",
+          "usage_hours": "Current usage hours (optional):"
+        }
+      },
+      "Lan": {
+        "title": "Lan Mode Connection",
+        "description": "Please provide your local printer IP address, serial number and access code. The access code can be found on the printer screen, in the network settings (WLAN). The serial number (SN) can be found in the device settings.",
+        "data": {
+          "serial": "Serial Number:",
+          "host": "Local Printer IP Address:",
+          "access_code": "Access Code:",
+          "usage_hours": "Current usage hours (optional):"
+        }
+      }
+    }
+  },
+  "options": {
+    "error": {
+      "cannot_connect": "Failed to connect",
+      "cannot_connect_local_ip": "Failed to connect. Check provided IP address.",
+      "cannot_connect_local_all": "Failed to connect. Check provided settings.",
+      "invalid_auth": "Invalid authentication.",
+      "unknown": "Unexpected error."
+    },
+    "step": {
+      "init": {
+        "title": "Adjust connection settings",
+        "description": "Configuration via Bambu Cloud is simplest. But does not support 2FA or social media accounts without a password. And it will not work for printers actively set to Lan Only Mode.",
+        "data": {
+          "printer_mode": "Printer configuration mode:"
+        }
+      },
+      "Bambu": {
+        "title": "Bambu Cloud Connection",
+        "description": "Please provide your Bambu Lab credentials:",
+        "data": {
+          "region": "Account region:",
+          "email": "Email Address or Phone Number",
+          "password": "Password"
+        }
+      },
+      "Bambu_Lan": {
+        "title": "Adjust Printer Configuration",
+        "description": "You can optionally provide the local printer IP address and access code. This is required for camera access on the P1/A1. Or to be able to connect directly to the printer instead of via Bambu Cloud.",
+        "data": {
+          "printer": "Choose Printer To Add:",
+          "host": "Local Printer IP Address:",
+          "access_code": "Access Code:",
+          "local_mqtt": "Connect directly to printer instead of by Bambu Cloud:",
+          "usage_hours": "Current usage hours (optional):"
+        }
+      },
+      "Lan": {
+        "title": "Lan Mode Connection",
+        "description": "Please provide your local printer IP address and access code. The access code can be found on the printer screen in the network settings (WLAN).",
+        "data": {
+          "host": "Local Printer IP Address:",
+          "access_code": "Access Code:",
+          "usage_hours": "Current usage hours (optional):"
+        }
+      }
+    }
+  },
+  "entity": {
+    "binary_sensor": {
+      "door_open": {
+        "name": "Enclosure door"
+      },
+      "timelapse": {
+        "name": "Recording timelapse"
+      },
+      "hms_errors": {
+        "name": "HMS errors"
+      },
+      "online": {
+        "name": "Online"
+      },
+      "firmware_update": {
+        "name": "Firmware update"
+      }
+    },
+    "button": {
+      "pause": {
+        "name": "Pause printing"
+      },
+      "resume": {
+        "name": "Resume printing"
+      },
+      "stop": {
+        "name": "Stop printing"
+      },
+      "refresh": {
+        "name": "Force Refresh Data"
+      }
+    },
+    "fan": {
+      "cooling_fan": {
+        "name": "Cooling fan"
+      },
+      "aux_fan": {
+        "name": "Aux fan"
+      },
+      "chamber_fan": {
+        "name": "Chamber fan"
+      }
+    },
+    "image": {
+      "p1p_camera": {
+        "name": "Camera"
+      },
+      "cover_image": {
+        "name": "Cover Image"
+      }
+    },
+    "light": {
+      "chamber_light": {
+        "name": "Chamber light"
+      },
+      "camera_light": {
+        "name": "Camera light"
+      }
+    },
+    "select": {
+      "printing_speed": {
+        "name": "Printing speed",
+        "state": {
+          "silent": "Silent",
+          "standard": "Standard",
+          "sport": "Sport",
+          "ludicrous": "Ludicrous"
+        }
+      }
+    },
+    "sensor": {
+      "wifi_signal": {
+        "name": "Wi-Fi signal"
+      },
+      "bed_temp": {
+        "name": "Bed temperature"
+      },
+      "target_bed_temp": {
+        "name": "Target Bed temperature"
+      },
+      "chamber_temp": {
+        "name": "Chamber temperature"
+      },
+      "target_nozzle_temp": {
+        "name": "Nozzle target temperature"
+      },
+      "nozzle_temp": {
+        "name": "Nozzle temperature"
+      },
+      "aux_fan_speed": {
+        "name": "Aux fan speed"
+      },
+      "cooling_fan_speed": {
+        "name": "Cooling fan speed"
+      },
+      "chamber_fan_speed": {
+        "name": "Chamber fan speed"
+      },
+      "heatbreak_fan_speed": {
+        "name": "Heatbreak fan speed"
+      },
+      "speed_profile": {
+        "name": "Speed profile",
+        "state": {
+          "silent": "Silent",
+          "standard": "Standard",
+          "sport": "Sport",
+          "ludicrous": "Ludicrous"
+        },
+        "state_attributes": {
+          "modifier": {
+            "name": "Modifier"
+          }
+        }
+      },
+      "printer_name": {
+        "name": "Printer name"
+      },
+      "stage": {
+        "name": "Current stage",
+        "state": {
+          "offline": "Offline",
+          "printing": "Printing",
+          "auto_bed_leveling": "Auto bed leveling",
+          "heatbed_preheating": "Heatbed preheating",
+          "sweeping_xy_mech_mode": "Sweeping XY mech mode",
+          "changing_filament": "Changing filament",
+          "m400_pause": "M400 pause",
+          "paused_filament_runout": "Paused due to filament runout",
+          "heating_hotend": "Heating hotend",
+          "calibrating_extrusion": "Calibrating extrusion",
+          "scanning_bed_surface": "Scanning bed surface",
+          "inspecting_first_layer": "Inspecting first layer",
+          "identifying_build_plate_type": "Identifying build plate type",
+          "calibrating_micro_lidar": "Calibrating micro lidar",
+          "homing_toolhead": "Homing toolhead",
+          "cleaning_nozzle_tip": "Cleaning nozzle tip",
+          "checking_extruder_temperature": "Checking extruder temperature",
+          "paused_user": "Printing was paused by the user",
+          "paused_front_cover_falling": "Pause of front cover falling",
+          "calibrating_extrusion_flow": "Calibrating extrusion flow",
+          "paused_nozzle_temperature_malfunction": "Paused due to nozzle temperature malfunction",
+          "paused_heat_bed_temperature_malfunction": "Paused due to heat bed temperature malfunction",
+          "filament_unloading": "Filament unloading",
+          "paused_skipped_step": "Paused due to skipped steps",
+          "filament_loading": "Filament loading",
+          "calibrating_motor_noise": "Calibrating motor noise",
+          "paused_ams_lost": "Paused due to AMS lost",
+          "paused_low_fan_speed_heat_break": "Paused due to low heat break fan speed",
+          "paused_chamber_temperature_control_error": "Paused due to chamber temperature control error",
+          "cooling_chamber": "Cooling chamber",
+          "paused_user_gcode": "Paused by user added gcode pause instruction",
+          "motor_noise_showoff": "Motor noise show off",
+          "paused_nozzle_filament_covered_detected": "Paused due to nozzle filament covered detected",
+          "paused_cutter_error": "Paused due to cutter error",
+          "paused_first_layer_error": "Paused due to first layer error",
+          "paused_nozzle_clog": "Paused due to nozzle clog",
+          "idle": "Idle"
+        }
+      },
+      "print_progress": {
+        "name": "Print progress"
+      },
+      "print_status": {
+        "name": "Print status",
+        "state": {
+          "failed": "Failed",
+          "finish": "Finish",
+          "idle": "Idle",
+          "offline": "Offline",
+          "prepare": "Prepare",
+          "running": "Running",
+          "pause": "Pause",
+          "slicing": "Slicing",
+          "init": "Init"
+        }
+      },
+      "mqtt_mode": {
+        "name": "MQTT connection mode",
+        "state": {
+          "local": "Local",
+          "bambu_cloud": "Bambu Cloud"
+        }
+      },
+      "gcode_file": {
+        "name": "Gcode filename"
+      },
+      "print_bed_type": {
+        "name": "Print bed type",
+        "state": {
+          "textured_plate": "Textured plate",
+          "cool_plate": "Cool Plate / PLA Plate",
+          "hot_plate": "Smooth PEI Plate / High Temp Plate",
+          "eng_plate": "Engineering Plate"
+        }
+      },
+      "print_length": {
+        "name": "Print length"
+      },
+      "print_weight": {
+        "name": "Print weight"
+      },
+      "subtask_name": {
+        "name": "Task name"
+      },
+      "print_type": {
+        "name": "Print type",
+        "state": {
+          "local": "Local",
+          "cloud": "Cloud",
+          "idle": "Idle"
+        }
+      },
+      "start_time": {
+        "name": "Start time"
+      },
+      "remaining_time": {
+        "name": "Remaining time"
+      },
+      "end_time": {
+        "name": "End time"
+      },
+      "total_usage_hours": {
+        "name": "Total usage"
+      },
+      "current_layer": {
+        "name": "Current layer"
+      },
+      "total_layers": {
+        "name": "Total layer count"
+      },
+      "active_tray": {
+        "name": "Active tray"
+      },
+      "active_tray_index": {
+        "name": "Active tray index"
+      },
+      "nozzle_diameter": {
+        "name": "Nozzle size"
+      },
+      "nozzle_type": {
+        "name": "Nozzle type",
+        "state": {
+          "hardened_steel": "Hardened steel",
+          "stainless_steel": "Stainless steel"
+        }
+      },
+      "humidity_index": {
+        "name": "Humidity index"
+      },
+      "ams_temp": {
+        "name": "AMS temperature"
+      },
+      "external_spool": {
+        "name": "External spool",
+        "state_attributes": {
+          "active": {
+            "name": "Active"
+          },
+          "color": {
+            "name": "Color"
+          },
+          "empty": {
+            "name": "Empty"
+          },
+          "k_value": {
+            "name": "K value"
+          },
+          "name": {
+            "name": "Name"
+          },
+          "nozzle_temp_min": {
+            "name": "Nozzle min temperature"
+          },
+          "nozzle_temp_max": {
+            "name": "Nozzle max temperature"
+          },
+          "type": {
+            "name": "Type"
+          }
+        }
+      },
+      "tray_1": {
+        "name": "Tray 1",
+        "state_attributes": {
+          "active": {
+            "name": "Active"
+          },
+          "color": {
+            "name": "Color"
+          },
+          "empty": {
+            "name": "Empty"
+          },
+          "k_value": {
+            "name": "K value"
+          },
+          "name": {
+            "name": "Name"
+          },
+          "nozzle_temp_min": {
+            "name": "Nozzle min temperature"
+          },
+          "nozzle_temp_max": {
+            "name": "Nozzle max temperature"
+          },
+          "remain": {
+            "name": "Remaining filament"
+          },
+          "tag_uid": {
+            "name": "Spool serial number"
+          },
+          "type": {
+            "name": "Type"
+          }
+        }
+      },
+      "tray_2": {
+        "name": "Tray 2",
+        "state_attributes": {
+          "active": {
+            "name": "Active"
+          },
+          "color": {
+            "name": "Color"
+          },
+          "empty": {
+            "name": "Empty"
+          },
+          "k_value": {
+            "name": "K value"
+          },
+          "name": {
+            "name": "Name"
+          },
+          "nozzle_temp_min": {
+            "name": "Nozzle min temperature"
+          },
+          "nozzle_temp_max": {
+            "name": "Nozzle max temperature"
+          },
+          "type": {
+            "name": "Type"
+          },
+          "remain": {
+            "name": "Remaining filament"
+          },
+          "tag_uid": {
+            "name": "Serial number of filament"
+          }
+        }
+      },
+      "tray_3": {
+        "name": "Tray 3",
+        "state_attributes": {
+          "active": {
+            "name": "Active"
+          },
+          "color": {
+            "name": "Color"
+          },
+          "empty": {
+            "name": "Empty"
+          },
+          "k_value": {
+            "name": "K value"
+          },
+          "name": {
+            "name": "Name"
+          },
+          "nozzle_temp_min": {
+            "name": "Nozzle min temperature"
+          },
+          "nozzle_temp_max": {
+            "name": "Nozzle max temperature"
+          },
+          "type": {
+            "name": "Type"
+          },
+          "remain": {
+            "name": "Remaining filament"
+          },
+          "tag_uid": {
+            "name": "Serial number of filament"
+          }
+        }
+      },
+      "tray_4": {
+        "name": "Tray 4",
+        "state_attributes": {
+          "active": {
+            "name": "Active"
+          },
+          "color": {
+            "name": "Color"
+          },
+          "empty": {
+            "name": "Empty"
+          },
+          "k_value": {
+            "name": "K value"
+          },
+          "name": {
+            "name": "Name"
+          },
+          "nozzle_temp_min": {
+            "name": "Nozzle min temperature"
+          },
+          "nozzle_temp_max": {
+            "name": "Nozzle max temperature"
+          },
+          "type": {
+            "name": "Type"
+          },
+          "remain": {
+            "name": "Remaining filament"
+          },
+          "tag_uid": {
+            "name": "Serial number of filament"
+          }
+        }
+      }
+    },
+    "camera": {
+      "camera": {
+        "name": "Camera"
+      }
+    },
+    "switch": {
+      "manual": {
+        "name": "Manual refresh mode"
+      }
+    }
+  }
+}
