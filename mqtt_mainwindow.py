@@ -1,5 +1,7 @@
 import json
+import locale
 import sys
+import time
 
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QApplication, QMainWindow
@@ -51,6 +53,9 @@ class MainWindow(Ui_MainWindow, QMainWindow):
         # self.mqtt_worker.push_all_messages()
 
     def data_init(self):
+        # 设置locale为英文，以使用AM/PM
+        locale.setlocale(locale.LC_TIME, 'C')
+
         # 读取mqtt配置
         self.load_config()
 
@@ -60,7 +65,7 @@ class MainWindow(Ui_MainWindow, QMainWindow):
 
     def ui_init(self):
         # 窗口置顶
-        self.setWindowFlag(Qt.WindowStaysOnTopHint, True)
+        self.setWindowFlag(Qt.WindowType.WindowStaysOnTopHint, True)
         self.setWindowTitle('A1 Monitor')
         self.show_monitor_info()
 
@@ -73,12 +78,18 @@ class MainWindow(Ui_MainWindow, QMainWindow):
         hours = self.remind_time % 1440 // 60
         # 钟数
         minutes = self.remind_time % 1440 % 60
+
+        # 计算完成时间
+        finish_time = time.time() + self.remind_time
+        finish_time_struct = time.localtime(finish_time)
+        finish_time_str = time.strftime('%I:%M%p', finish_time_struct)
+
         if days > 0:
-            self.label_time.setText(f'剩余: {days}天{hours:02d}时{minutes:02d}分')
+            self.label_time.setText(f'剩余: {days}天{hours:02d}时{minutes:02d}分 → 明天{finish_time_str}')
         elif hours > 0:
-            self.label_time.setText(f'剩余: {hours}时{minutes:02d}分')
+            self.label_time.setText(f'剩余: {hours}时{minutes:02d}分 → {finish_time_str}')
         else:
-            self.label_time.setText(f'剩余: {minutes}分')
+            self.label_time.setText(f'剩余: {minutes}分 → {finish_time_str}')
         self.label_nozzle.setText(f'喷嘴: {self.nozzle_temperature:.2f} / {self.nozzle_target_temperature:.2f}')
         self.label_hotbed.setText(f'热床: {self.hotbed_temperature:.2f} / {self.hotbed_target_temperature:.2f}')
         self.progressBar.setValue(self.task_percent)
