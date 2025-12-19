@@ -80,9 +80,9 @@ class MainWindow(Ui_MainWindow, QMainWindow):
         minutes = self.remind_time % 1440 % 60
 
         # 计算完成时间
-        finish_time = time.time() + self.remind_time
+        finish_time = time.time() + self.remind_time * 60
         finish_time_struct = time.localtime(finish_time)
-        finish_time_str = time.strftime('%I:%M%p', finish_time_struct)
+        finish_time_str = time.strftime('%I:%M %p', finish_time_struct)
 
         if days > 0:
             self.label_time.setText(f'剩余: {days}天{hours:02d}时{minutes:02d}分 → 明天{finish_time_str}')
