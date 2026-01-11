@@ -4,19 +4,103 @@ import sys
 import time
 
 from PySide6.QtCore import Qt
-from PySide6.QtWidgets import QApplication, QMainWindow
+from PySide6.QtWidgets import QApplication, QMainWindow, QDialog, QLabel, QLineEdit, QSpinBox, QVBoxLayout, QHBoxLayout, QDialogButtonBox
 
 import mqtt_const
 from ui.ui_mqtt_mainwindow import Ui_MainWindow
 from mqtt_worker import MqttWorker
 
 
+class ConfigDialog(QDialog):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setWindowTitle("配置参数")
+        self.setModal(True)
+
+        # 加载当前配置
+        try:
+            with open('config.json', 'r', encoding='utf-8') as f:
+                self.config = json.load(f)
+        except FileNotFoundError:
+            self.config = {
+                "username": "bblp",
+                "lan_code": "",
+                "sn": "",
+                "ip": "",
+                "port": 8883
+            }
+
+        # 创建控件
+        layout = QVBoxLayout()
+
+        # Username
+        username_layout = QHBoxLayout()
+        username_layout.addWidget(QLabel("用户名:"))
+        self.username_edit = QLineEdit(self.config.get('username', ''))
+        username_layout.addWidget(self.username_edit)
+        layout.addLayout(username_layout)
+
+        # Lan Code
+        lan_code_layout = QHBoxLayout()
+        lan_code_layout.addWidget(QLabel("访问码:"))
+        self.lan_code_edit = QLineEdit(self.config.get('lan_code', ''))
+        lan_code_layout.addWidget(self.lan_code_edit)
+        layout.addLayout(lan_code_layout)
+
+        # SN
+        sn_layout = QHBoxLayout()
+        sn_layout.addWidget(QLabel("序列号:"))
+        self.sn_edit = QLineEdit(self.config.get('sn', ''))
+        sn_layout.addWidget(self.sn_edit)
+        layout.addLayout(sn_layout)
+
+        # IP
+        ip_layout = QHBoxLayout()
+        ip_layout.addWidget(QLabel("IP:"))
+        self.ip_edit = QLineEdit(self.config.get('ip', ''))
+        ip_layout.addWidget(self.ip_edit)
+        layout.addLayout(ip_layout)
+
+        # Port
+        port_layout = QHBoxLayout()
+        port_layout.addWidget(QLabel("端口:"))
+        self.port_edit = QSpinBox()
+        self.port_edit.setRange(1, 65535)
+        self.port_edit.setValue(self.config.get('port', 8883))
+        port_layout.addWidget(self.port_edit)
+        layout.addLayout(port_layout)
+
+        # 按钮
+        buttons = QDialogButtonBox(QDialogButtonBox.StandardButton.Ok | QDialogButtonBox.StandardButton.Cancel)
+        buttons.accepted.connect(self.accept)
+        buttons.rejected.connect(self.reject)
+        layout.addWidget(buttons)
+
+        self.setLayout(layout)
+
+    def get_config(self):
+        return {
+            "username": self.username_edit.text(),
+            "lan_code": self.lan_code_edit.text(),
+            "sn": self.sn_edit.text(),
+            "ip": self.ip_edit.text(),
+            "port": self.port_edit.value()
+        }
+
+
 class MainWindow(Ui_MainWindow, QMainWindow):
     def __init__(self):
         super(MainWindow, self).__init__()
 
+        # 显示配置对话框
+        config_dialog = ConfigDialog()
+        if config_dialog.exec() == QDialog.DialogCode.Accepted:
+            self.mqtt_connect_info = config_dialog.get_config()
+            self.save_config()
+        else:
+            sys.exit()
+
         self.translations: dict = {}
-        self.mqtt_connect_info: dict = {}
 
         self.data_init()
 
@@ -55,9 +139,6 @@ class MainWindow(Ui_MainWindow, QMainWindow):
     def data_init(self):
         # 设置locale为英文，以使用AM/PM
         locale.setlocale(locale.LC_TIME, 'C')
-
-        # 读取mqtt配置
-        self.load_config()
 
         # 读取中文翻译json
         with open('translations/zh-Hans.json', 'r', encoding='utf-8') as f:
@@ -107,6 +188,10 @@ class MainWindow(Ui_MainWindow, QMainWindow):
     def load_config(self):
         with open('config.json', 'r', encoding='utf-8') as f:
             self.mqtt_connect_info = json.load(f)
+
+    def save_config(self):
+        with open('config.json', 'w', encoding='utf-8') as f:
+            json.dump(self.mqtt_connect_info, f, indent=4)
 
     def show_current_stage(self):
         current_stage = mqtt_const.CURRENT_STAGE_IDS.get(self.stage_code, f'未知状态{self.stage_code}')
