@@ -75,6 +75,7 @@ CURRENT_STAGE_IDS = {
     # X1 returns -1 for idle
     -1: "idle",  # DUPLICATED
     # P1 returns 255 for idle
+    66: "腔体空气净化中", # P2S 安装后排风扇后功能
     255: "idle",  # DUPLICATED
 }
 
