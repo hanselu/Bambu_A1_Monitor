@@ -4,11 +4,24 @@ import sys
 import time
 
 from PySide6.QtCore import Qt
-from PySide6.QtWidgets import QApplication, QMainWindow, QDialog, QLabel, QLineEdit, QSpinBox, QVBoxLayout, QHBoxLayout, QDialogButtonBox
+from PySide6.QtGui import QIcon
+from PySide6.QtWidgets import QApplication, QMainWindow, QDialog, QLabel, QLineEdit, QSpinBox, QVBoxLayout, QHBoxLayout, QDialogButtonBox, QComboBox
 
 import mqtt_const
 from ui.ui_mqtt_mainwindow import Ui_MainWindow
 from mqtt_worker import MqttWorker
+
+DEVICE_TYPES = {
+    "00M": ["X1", "X1C"],
+    "03W": ["X1E"],
+    "039": ["A1"],
+    "030": ["A1MINI"],
+    "01S": ["P1P"],
+    "01P": ["P1S"],
+    "22E": ["P2S"],
+    "093": ["H2S"],
+    "094": ["H2D"],
+}
 
 
 class ConfigDialog(QDialog):
@@ -16,6 +29,8 @@ class ConfigDialog(QDialog):
         super().__init__(parent)
         self.setWindowTitle("配置参数")
         self.setModal(True)
+        # 设置窗口图标
+        self.setWindowIcon(QIcon('logo.png'))
 
         # 加载当前配置
         try:
@@ -30,44 +45,99 @@ class ConfigDialog(QDialog):
                 "port": 8883
             }
 
+        # 确保device_type存在
+        if 'device_type' not in self.config:
+            sn = self.config.get('sn', '')
+            device_types = self.get_device_type(sn)
+            if device_types:
+                self.config['device_type'] = device_types[0] if len(device_types) == 1 else "未知"
+            else:
+                self.config['device_type'] = "未知"
+
         # 创建控件
         layout = QVBoxLayout()
+        
+        # 设置统一的标签宽度和输入框宽度
+        label_width = 45
+        input_width = 120
+        sn_input_width = 120
 
         # Username
         username_layout = QHBoxLayout()
-        username_layout.addWidget(QLabel("用户名:"))
+        username_layout.setSpacing(2)
+        username_label = QLabel("用户名:")
+        username_label.setFixedWidth(label_width)
+        username_layout.addWidget(username_label)
         self.username_edit = QLineEdit(self.config.get('username', ''))
+        self.username_edit.setFixedWidth(input_width)
         username_layout.addWidget(self.username_edit)
+        username_layout.addStretch()
         layout.addLayout(username_layout)
 
         # Lan Code
         lan_code_layout = QHBoxLayout()
-        lan_code_layout.addWidget(QLabel("访问码:"))
+        lan_code_layout.setSpacing(2)
+        lan_code_label = QLabel("访问码:")
+        lan_code_label.setFixedWidth(label_width)
+        lan_code_layout.addWidget(lan_code_label)
         self.lan_code_edit = QLineEdit(self.config.get('lan_code', ''))
+        self.lan_code_edit.setFixedWidth(input_width)
         lan_code_layout.addWidget(self.lan_code_edit)
+        lan_code_layout.addStretch()
         layout.addLayout(lan_code_layout)
 
         # SN
         sn_layout = QHBoxLayout()
-        sn_layout.addWidget(QLabel("序列号:"))
+        sn_layout.setSpacing(2)
+        sn_label = QLabel("序列号:")
+        sn_label.setFixedWidth(label_width)
+        sn_layout.addWidget(sn_label)
         self.sn_edit = QLineEdit(self.config.get('sn', ''))
+        self.sn_edit.setFixedWidth(sn_input_width)
+        self.sn_edit.textChanged.connect(self.update_device_type)
         sn_layout.addWidget(self.sn_edit)
+        sn_layout.addStretch()
         layout.addLayout(sn_layout)
+
+        # Device Type
+        device_type_layout = QHBoxLayout()
+        device_type_layout.setSpacing(2)
+        device_type_label_fixed = QLabel("机型:")
+        device_type_label_fixed.setFixedWidth(label_width)
+        device_type_layout.addWidget(device_type_label_fixed)
+        self.device_type_label = QLabel()
+        self.device_type_label.setFixedWidth(input_width)
+        self.device_type_combo = QComboBox()
+        self.device_type_combo.setFixedWidth(input_width)
+        device_type_layout.addWidget(self.device_type_label)
+        device_type_layout.addWidget(self.device_type_combo)
+        device_type_layout.addStretch()
+        layout.addLayout(device_type_layout)
 
         # IP
         ip_layout = QHBoxLayout()
-        ip_layout.addWidget(QLabel("IP:"))
+        ip_layout.setSpacing(2)
+        ip_label = QLabel("IP:")
+        ip_label.setFixedWidth(label_width)
+        ip_layout.addWidget(ip_label)
         self.ip_edit = QLineEdit(self.config.get('ip', ''))
+        self.ip_edit.setFixedWidth(input_width)
         ip_layout.addWidget(self.ip_edit)
+        ip_layout.addStretch()
         layout.addLayout(ip_layout)
 
         # Port
         port_layout = QHBoxLayout()
-        port_layout.addWidget(QLabel("端口:"))
+        port_layout.setSpacing(2)
+        port_label = QLabel("端口:")
+        port_label.setFixedWidth(label_width)
+        port_layout.addWidget(port_label)
         self.port_edit = QSpinBox()
         self.port_edit.setRange(1, 65535)
         self.port_edit.setValue(self.config.get('port', 8883))
+        self.port_edit.setFixedWidth(input_width)
         port_layout.addWidget(self.port_edit)
+        port_layout.addStretch()
         layout.addLayout(port_layout)
 
         # 按钮
@@ -77,12 +147,56 @@ class ConfigDialog(QDialog):
         layout.addWidget(buttons)
 
         self.setLayout(layout)
+        
+        # 设置对话框最小宽度
+        self.setMinimumWidth(200)
+
+        # 初始化机型显示
+        self.update_device_type()
+
+    def get_device_type(self, sn):
+        if not sn:
+            return []
+        for prefix, devices in DEVICE_TYPES.items():
+            if sn.startswith(prefix):
+                return devices
+        return []
+
+    def update_device_type(self):
+        sn = self.sn_edit.text()
+        device_types = self.get_device_type(sn)
+        if len(device_types) == 1:
+            self.device_type_label.setText(device_types[0])
+            self.device_type_label.show()
+            self.device_type_combo.hide()
+        elif len(device_types) > 1:
+            self.device_type_combo.clear()
+            self.device_type_combo.addItems(device_types)
+            self.device_type_combo.setCurrentIndex(0)
+            self.device_type_label.hide()
+            self.device_type_combo.show()
+        else:
+            # 未知，显示所有机型
+            all_devices = [d for devices in DEVICE_TYPES.values() for d in devices]
+            self.device_type_combo.clear()
+            self.device_type_combo.addItems(all_devices)
+            self.device_type_combo.setCurrentIndex(0)
+            self.device_type_label.hide()
+            self.device_type_combo.show()
 
     def get_config(self):
+        device_types = self.get_device_type(self.sn_edit.text())
+        if len(device_types) == 1:
+            device_type = device_types[0]
+        elif len(device_types) > 1:
+            device_type = self.device_type_combo.currentText()
+        else:
+            device_type = self.device_type_combo.currentText() if self.device_type_combo.isVisible() else "未知"
         return {
             "username": self.username_edit.text(),
             "lan_code": self.lan_code_edit.text(),
             "sn": self.sn_edit.text(),
+            "device_type": device_type,
             "ip": self.ip_edit.text(),
             "port": self.port_edit.value()
         }
@@ -144,10 +258,21 @@ class MainWindow(Ui_MainWindow, QMainWindow):
         with open('translations/zh-Hans.json', 'r', encoding='utf-8') as f:
             self.translations = json.load(f)
 
+    def get_device_type(self, sn):
+        if not sn:
+            return []
+        for prefix, devices in DEVICE_TYPES.items():
+            if sn.startswith(prefix):
+                return devices
+        return []
+
     def ui_init(self):
         # 窗口置顶
         self.setWindowFlag(Qt.WindowType.WindowStaysOnTopHint, True)
-        self.setWindowTitle('A1 Monitor')
+        device_type = self.mqtt_connect_info.get('device_type', '未知')
+        self.setWindowTitle(f'{device_type} Monitor')
+        # 设置窗口图标        
+        self.setWindowIcon(QIcon('logo.png'))
         self.show_monitor_info()
 
     def show_monitor_info(self):
