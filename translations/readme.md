@@ -1,0 +1,1 @@
+以上翻译文件来自 [greghesp](https://github.com/greghesp) 的 [ha-bambulab项目](https://github.com/greghesp/ha-bambulab/tree/main/custom_components/bambu_lab/translations)
