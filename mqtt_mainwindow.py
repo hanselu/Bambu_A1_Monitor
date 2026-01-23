@@ -1,7 +1,9 @@
 import json
 import locale
+import os
 import sys
 import time
+from pathlib import Path
 
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QIcon
@@ -10,6 +12,9 @@ from PySide6.QtWidgets import QApplication, QMainWindow, QDialog, QLabel, QLineE
 import mqtt_const
 from ui.ui_mqtt_mainwindow import Ui_MainWindow
 from mqtt_worker import MqttWorker
+
+# 获取脚本所在目录的绝对路径
+BASE_DIR = Path(__file__).resolve().parent
 
 DEVICE_TYPES = {
     "00M": ["X1", "X1C"],
@@ -30,11 +35,11 @@ class ConfigDialog(QDialog):
         self.setWindowTitle("配置参数")
         self.setModal(True)
         # 设置窗口图标
-        self.setWindowIcon(QIcon('logo.png'))
+        self.setWindowIcon(QIcon(str(BASE_DIR / 'logo.png')))
 
         # 加载当前配置
         try:
-            with open('config.json', 'r', encoding='utf-8') as f:
+            with open(BASE_DIR / 'config.json', 'r', encoding='utf-8') as f:
                 self.config = json.load(f)
         except FileNotFoundError:
             self.config = {
@@ -255,7 +260,7 @@ class MainWindow(Ui_MainWindow, QMainWindow):
         locale.setlocale(locale.LC_TIME, 'C')
 
         # 读取中文翻译json
-        with open('translations/zh-Hans.json', 'r', encoding='utf-8') as f:
+        with open(BASE_DIR / 'translations' / 'zh-Hans.json', 'r', encoding='utf-8') as f:
             self.translations = json.load(f)
 
     def get_device_type(self, sn):
@@ -272,7 +277,7 @@ class MainWindow(Ui_MainWindow, QMainWindow):
         device_type = self.mqtt_connect_info.get('device_type', '未知')
         self.setWindowTitle(f'{device_type} Monitor')
         # 设置窗口图标        
-        self.setWindowIcon(QIcon('logo.png'))
+        self.setWindowIcon(QIcon(str(BASE_DIR / 'logo.png')))
         self.show_monitor_info()
 
     def show_monitor_info(self):
@@ -311,11 +316,11 @@ class MainWindow(Ui_MainWindow, QMainWindow):
         self.progressBar.setValue(0)
 
     def load_config(self):
-        with open('config.json', 'r', encoding='utf-8') as f:
+        with open(BASE_DIR / 'config.json', 'r', encoding='utf-8') as f:
             self.mqtt_connect_info = json.load(f)
 
     def save_config(self):
-        with open('config.json', 'w', encoding='utf-8') as f:
+        with open(BASE_DIR / 'config.json', 'w', encoding='utf-8') as f:
             json.dump(self.mqtt_connect_info, f, indent=4)
 
     def show_current_stage(self):
